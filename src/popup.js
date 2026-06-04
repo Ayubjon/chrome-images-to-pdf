@@ -5,6 +5,10 @@ import { prepareImages } from './lib/images.js';
 import { fitRect } from './lib/pdf-layout.js';
 import { pdfFilename } from './lib/filename.js';
 import { distinctOrigins } from './lib/origins.js';
+import { isConfiguredDonateValue } from './lib/donate.js';
+
+// 👉 Адрес для приёма донатов USDT (сеть Ethereum / ERC-20):
+const DONATE_ADDRESS = '0xad39bdf2df0b8dd6991150fcea0a156150ed19b8';
 
 const MIN_SIZE = 64;        // порог фильтра мелочи (px)
 const PAGE_W = 210;         // A4 ширина, мм
@@ -18,6 +22,9 @@ const statusEl = document.getElementById('status');
 const exportBtn = document.getElementById('export');
 const exportLabelEl = document.getElementById('exportLabel');
 const showAllEl = document.getElementById('showAll');
+const donateBar = document.getElementById('donateBar');
+const donateAddress = document.getElementById('donateAddress');
+const donateCopy = document.getElementById('donateCopy');
 
 let rawImages = [];         // всё, что прислал content.js
 const selected = new Set(); // выбранные src
@@ -33,6 +40,29 @@ function applyStaticI18n() {
     const msg = t(el.dataset.i18n);
     if (msg) el.textContent = msg;
   }
+}
+
+// Показывает полоску доната только если задан реальный адрес (не заглушка),
+// выводит адрес и вешает копирование в буфер.
+function setupDonate() {
+  if (!isConfiguredDonateValue(DONATE_ADDRESS)) return;
+  donateAddress.textContent = DONATE_ADDRESS;
+  donateBar.hidden = false;
+  donateCopy.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(DONATE_ADDRESS);
+    } catch (e) {
+      // запасной вариант: выделить адрес для ручного копирования
+      const range = document.createRange();
+      range.selectNodeContents(donateAddress);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+    const original = t('copy');
+    donateCopy.textContent = t('copied');
+    setTimeout(() => { donateCopy.textContent = original; }, 1500);
+  });
 }
 
 function setStatus(text, isError = false) {
@@ -208,4 +238,5 @@ exportBtn.addEventListener('click', exportPdf);
 // Старт.
 applyStaticI18n();
 updateExportButton();
+setupDonate();
 loadImages();
