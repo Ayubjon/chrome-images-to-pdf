@@ -65,3 +65,14 @@ button {
 button:hover { background: #efefef; }
 .export { background: #2d7ff9; border-color: #2d7ff9; color: #fff; font-weight: 600; }
 .export:disabled { background: #b9c7da; border-color: #b9c7da; cursor: default; }
+.donate {
+  padding: 8px 12px;
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+.donate a {
+  font-size: 12px;
+  color: #888;
+  text-decoration: none;
+}
+.donate a:hover { color: #2d7ff9; text-decoration: underline; }
