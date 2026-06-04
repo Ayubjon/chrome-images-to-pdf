@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { isConfiguredDonateValue } from '../src/lib/donate.js';
 
 test('заглушка-адрес не считается настроенной', () => {
-  assert.equal(isConfiguredDonateValue('YOUR_USDT_TRC20_ADDRESS_HERE'), false);
+  assert.equal(isConfiguredDonateValue('YOUR_USDT_ADDRESS_HERE'), false);
 });
 
 test('пустая строка и пробелы — не настроено', () => {
