@@ -9,7 +9,7 @@
 **Tech Stack:** Chrome Manifest V3, чистые HTML/CSS/JS (ES-модули), Chrome i18n API, jsPDF 2.5.1. Тесты — `node --test tests/*.test.js` (Node 18+).
 
 **Соглашения:**
-- Все коммиты заканчиваются строкой `Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>` (в шагах показан только заголовок).
+- В шагах показан только заголовок коммита.
 - Рабочая директория всех команд — корень проекта `images-to-pdf/`.
 - Комментарии в коде — на русском.
 

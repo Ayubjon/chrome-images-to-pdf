@@ -8,7 +8,7 @@
 
 **Tech Stack:** Chrome MV3, чистые HTML/CSS/JS (ES-модули), Chrome i18n. Тесты — `node --test tests/*.test.js`.
 
-**Соглашения:** коммиты заканчиваются `Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>`; рабочая директория — корень `images-to-pdf/`; комментарии на русском.
+**Соглашения:** рабочая директория — корень `images-to-pdf/`; комментарии на русском.
 
 **Файлы:**
 - Create: `src/lib/donate.js`, `tests/donate.test.js`
