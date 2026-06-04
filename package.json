@@ -1,0 +1,10 @@
+{
+  "name": "images-to-pdf",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Chrome MV3 расширение: картинки со страницы в один PDF",
+  "scripts": {
+    "test": "node --test tests/"
+  }
+}
