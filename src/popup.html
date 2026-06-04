@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Images → PDF</h1>
+      <label class="show-all">
+        <input type="checkbox" id="showAll" /> показать все
+      </label>
+    </header>
+
+    <div id="status" class="status"></div>
+    <div id="grid" class="grid"></div>
+
+    <footer>
+      <div class="controls">
+        <button id="selectAll" type="button">Выбрать все</button>
+        <button id="deselectAll" type="button">Снять все</button>
+      </div>
+      <button id="export" type="button" class="export" disabled>
+        Export PDF (<span id="count">0</span>)
+      </button>
+    </footer>
+
+    <!-- jsPDF как классический скрипт: кладёт window.jspdf -->
+    <script src="../lib/jspdf.umd.min.js"></script>
+    <!-- наша логика — ES-модуль -->
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>
