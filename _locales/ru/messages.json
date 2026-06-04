@@ -7,6 +7,8 @@
   "deselectAll": { "message": "Снять все" },
   "exportPdf": { "message": "Сохранить PDF" },
   "support": { "message": "Поддержать разработчика ☕" },
+  "copy": { "message": "Копировать" },
+  "copied": { "message": "Скопировано!" },
   "foundImages": { "message": "Найдено картинок: $count$", "placeholders": { "count": { "content": "$1" } } },
   "noImages": { "message": "Картинки не найдены." },
   "pageNotSupported": { "message": "Эта страница не поддерживается. Откройте обычный сайт (http/https)." },
