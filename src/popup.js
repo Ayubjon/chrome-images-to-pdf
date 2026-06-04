@@ -5,10 +5,10 @@ import { prepareImages } from './lib/images.js';
 import { fitRect } from './lib/pdf-layout.js';
 import { pdfFilename } from './lib/filename.js';
 import { distinctOrigins } from './lib/origins.js';
-import { isConfiguredDonateUrl } from './lib/donate.js';
+import { isConfiguredDonateValue } from './lib/donate.js';
 
-// 👉 Впиши сюда свою Binance Pay «Pay Me» ссылку (замени заглушку одной строкой):
-const DONATE_URL = 'BINANCE_PAY_URL_HERE';
+// 👉 Впиши сюда свой крипто-адрес USDT (сеть TRC-20, начинается с T):
+const DONATE_ADDRESS = 'YOUR_USDT_TRC20_ADDRESS_HERE';
 
 const MIN_SIZE = 64;        // порог фильтра мелочи (px)
 const PAGE_W = 210;         // A4 ширина, мм
@@ -23,7 +23,8 @@ const exportBtn = document.getElementById('export');
 const exportLabelEl = document.getElementById('exportLabel');
 const showAllEl = document.getElementById('showAll');
 const donateBar = document.getElementById('donateBar');
-const donateLink = document.getElementById('donateLink');
+const donateAddress = document.getElementById('donateAddress');
+const donateCopy = document.getElementById('donateCopy');
 
 let rawImages = [];         // всё, что прислал content.js
 const selected = new Set(); // выбранные src
@@ -41,12 +42,27 @@ function applyStaticI18n() {
   }
 }
 
-// Показывает полоску доната только если задан реальный URL (не заглушка).
+// Показывает полоску доната только если задан реальный адрес (не заглушка),
+// выводит адрес и вешает копирование в буфер.
 function setupDonate() {
-  if (isConfiguredDonateUrl(DONATE_URL)) {
-    donateLink.href = DONATE_URL;
-    donateBar.hidden = false;
-  }
+  if (!isConfiguredDonateValue(DONATE_ADDRESS)) return;
+  donateAddress.textContent = DONATE_ADDRESS;
+  donateBar.hidden = false;
+  donateCopy.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(DONATE_ADDRESS);
+    } catch (e) {
+      // запасной вариант: выделить адрес для ручного копирования
+      const range = document.createRange();
+      range.selectNodeContents(donateAddress);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+    const original = t('copy');
+    donateCopy.textContent = t('copied');
+    setTimeout(() => { donateCopy.textContent = original; }, 1500);
+  });
 }
 
 function setStatus(text, isError = false) {

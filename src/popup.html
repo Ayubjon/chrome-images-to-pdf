@@ -27,7 +27,12 @@
     </footer>
 
     <div id="donateBar" class="donate" hidden>
-      <a id="donateLink" href="#" target="_blank" rel="noopener" data-i18n="support">Support the developer ☕</a>
+      <div class="donate-title" data-i18n="support">Support the developer ☕</div>
+      <div class="donate-row">
+        <code id="donateAddress" class="donate-addr"></code>
+        <button id="donateCopy" type="button" data-i18n="copy">Copy</button>
+      </div>
+      <div class="donate-net">USDT · TRC-20</div>
     </div>
 
     <!-- jsPDF как классический скрипт: кладёт window.jspdf -->
