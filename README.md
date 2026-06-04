@@ -32,6 +32,20 @@ folder in step 3.
    domains of the selected images — allow it so they can be downloaded. A file
    named `images-<site>-<date>.pdf` is downloaded.
 
+## Support the developer 💛
+
+If this extension is useful to you, you can support its development with a small
+crypto tip — thank you!
+
+**USDT — Ethereum (ERC-20):**
+
+`0xad39bdf2df0b8dd6991150fcea0a156150ed19b8`
+
+[View / verify on Etherscan](https://etherscan.io/address/0xad39bdf2df0b8dd6991150fcea0a156150ed19b8)
+
+> Send only on the **Ethereum (ERC-20)** network. The same address is also shown
+> with a Copy button inside the extension popup.
+
 ## How it works
 
 - `src/popup.*` — UI and orchestration; builds the PDF with jsPDF.
