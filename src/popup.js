@@ -5,6 +5,10 @@ import { prepareImages } from './lib/images.js';
 import { fitRect } from './lib/pdf-layout.js';
 import { pdfFilename } from './lib/filename.js';
 import { distinctOrigins } from './lib/origins.js';
+import { isConfiguredDonateUrl } from './lib/donate.js';
+
+// 👉 Впиши сюда свою Binance Pay «Pay Me» ссылку (замени заглушку одной строкой):
+const DONATE_URL = 'BINANCE_PAY_URL_HERE';
 
 const MIN_SIZE = 64;        // порог фильтра мелочи (px)
 const PAGE_W = 210;         // A4 ширина, мм
@@ -18,6 +22,8 @@ const statusEl = document.getElementById('status');
 const exportBtn = document.getElementById('export');
 const exportLabelEl = document.getElementById('exportLabel');
 const showAllEl = document.getElementById('showAll');
+const donateBar = document.getElementById('donateBar');
+const donateLink = document.getElementById('donateLink');
 
 let rawImages = [];         // всё, что прислал content.js
 const selected = new Set(); // выбранные src
@@ -32,6 +38,14 @@ function applyStaticI18n() {
   for (const el of document.querySelectorAll('[data-i18n]')) {
     const msg = t(el.dataset.i18n);
     if (msg) el.textContent = msg;
+  }
+}
+
+// Показывает полоску доната только если задан реальный URL (не заглушка).
+function setupDonate() {
+  if (isConfiguredDonateUrl(DONATE_URL)) {
+    donateLink.href = DONATE_URL;
+    donateBar.hidden = false;
   }
 }
 
@@ -208,4 +222,5 @@ exportBtn.addEventListener('click', exportPdf);
 // Старт.
 applyStaticI18n();
 updateExportButton();
+setupDonate();
 loadImages();
