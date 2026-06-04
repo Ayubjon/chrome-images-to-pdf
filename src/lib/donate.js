@@ -1,12 +1,12 @@
-// Проверка, задан ли реальный URL доната (а не заглушка по умолчанию).
+// Проверка, задан ли реальный адрес доната (а не заглушка по умолчанию).
 // Чистая функция — тестируется в Node.
 
-const PLACEHOLDER = 'BINANCE_PAY_URL_HERE';
+const PLACEHOLDER = 'YOUR_USDT_TRC20_ADDRESS_HERE';
 
 /**
- * @param {string} url значение константы DONATE_URL
- * @returns {boolean} true, если это настоящий URL (не заглушка и не пусто)
+ * @param {string} value значение константы DONATE_ADDRESS
+ * @returns {boolean} true, если это настоящий адрес (не заглушка и не пусто)
  */
-export function isConfiguredDonateUrl(url) {
-  return typeof url === 'string' && url.trim() !== '' && url !== PLACEHOLDER;
+export function isConfiguredDonateValue(value) {
+  return typeof value === 'string' && value.trim() !== '' && value !== PLACEHOLDER;
 }
