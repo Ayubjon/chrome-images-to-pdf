@@ -49,9 +49,9 @@ export the user-selected ones into a single PDF file.
 приведи к 1280×800.
 
 ## URL политики конфиденциальности
-Нужен ПУБЛИЧНЫЙ адрес. Репозиторий приватный, поэтому варианты:
-- сделать репозиторий публичным и дать ссылку на `PRIVACY.md`;
-- или опубликовать текст `PRIVACY.md` как публичный GitHub Gist;
-- или включить GitHub Pages и разместить страницу.
+Опубликована как публичный GitHub Gist:
 
-Вставь полученный URL в поле «Privacy policy» в дашборде.
+**https://gist.github.com/Ayubjon/9318f0fdf69f3f951d1d3662ac417b2e**
+
+Вставь этот URL в поле «Privacy policy» в дашборде. Если правишь `PRIVACY.md` —
+обнови и Gist: `gh gist edit 9318f0fdf69f3f951d1d3662ac417b2e PRIVACY.md`.
