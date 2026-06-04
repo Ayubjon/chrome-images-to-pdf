@@ -7,8 +7,8 @@ import { pdfFilename } from './lib/filename.js';
 import { distinctOrigins } from './lib/origins.js';
 import { isConfiguredDonateValue } from './lib/donate.js';
 
-// 👉 Впиши сюда свой крипто-адрес USDT (сеть TRC-20, начинается с T):
-const DONATE_ADDRESS = 'YOUR_USDT_TRC20_ADDRESS_HERE';
+// 👉 Адрес для приёма донатов USDT (сеть Ethereum / ERC-20):
+const DONATE_ADDRESS = '0xad39bdf2df0b8dd6991150fcea0a156150ed19b8';
 
 const MIN_SIZE = 64;        // порог фильтра мелочи (px)
 const PAGE_W = 210;         // A4 ширина, мм
