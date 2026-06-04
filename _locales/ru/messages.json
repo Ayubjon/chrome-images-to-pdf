@@ -1,0 +1,19 @@
+{
+  "extName": { "message": "Картинки в PDF" },
+  "extDescription": { "message": "Собрать картинки со страницы и сохранить выбранные в один PDF." },
+  "appTitle": { "message": "Images → PDF" },
+  "showAll": { "message": "показать все" },
+  "selectAll": { "message": "Выбрать все" },
+  "deselectAll": { "message": "Снять все" },
+  "exportPdf": { "message": "Сохранить PDF" },
+  "foundImages": { "message": "Найдено картинок: $count$", "placeholders": { "count": { "content": "$1" } } },
+  "noImages": { "message": "Картинки не найдены." },
+  "pageNotSupported": { "message": "Эта страница не поддерживается. Откройте обычный сайт (http/https)." },
+  "readError": { "message": "Не удалось прочитать страницу: $error$", "placeholders": { "error": { "content": "$1" } } },
+  "permissionDenied": { "message": "Доступ к сайтам картинок не выдан." },
+  "downloading": { "message": "Скачиваю картинок: $count$…", "placeholders": { "count": { "content": "$1" } } },
+  "buildingPdf": { "message": "Собираю PDF…" },
+  "noneAdded": { "message": "Не удалось добавить ни одной картинки." },
+  "doneAdded": { "message": "Готово: добавлено $added$ из $total$", "placeholders": { "added": { "content": "$1" }, "total": { "content": "$2" } } },
+  "failedSuffix": { "message": ", не удалось $count$", "placeholders": { "count": { "content": "$1" } } }
+}

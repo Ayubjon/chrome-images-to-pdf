@@ -1,0 +1,19 @@
+{
+  "extName": { "message": "Images to PDF" },
+  "extDescription": { "message": "Collect images from a page and save the selected ones to a single PDF." },
+  "appTitle": { "message": "Images → PDF" },
+  "showAll": { "message": "show all" },
+  "selectAll": { "message": "Select all" },
+  "deselectAll": { "message": "Deselect all" },
+  "exportPdf": { "message": "Export PDF" },
+  "foundImages": { "message": "Found images: $count$", "placeholders": { "count": { "content": "$1" } } },
+  "noImages": { "message": "No images found." },
+  "pageNotSupported": { "message": "This page isn't supported. Open a regular http/https website." },
+  "readError": { "message": "Couldn't read the page: $error$", "placeholders": { "error": { "content": "$1" } } },
+  "permissionDenied": { "message": "Access to the image sites was not granted." },
+  "downloading": { "message": "Downloading images: $count$…", "placeholders": { "count": { "content": "$1" } } },
+  "buildingPdf": { "message": "Building PDF…" },
+  "noneAdded": { "message": "Couldn't add any images." },
+  "doneAdded": { "message": "Done: added $added$ of $total$", "placeholders": { "added": { "content": "$1" }, "total": { "content": "$2" } } },
+  "failedSuffix": { "message": ", failed $count$", "placeholders": { "count": { "content": "$1" } } }
+}

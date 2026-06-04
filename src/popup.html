@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
     <header>
-      <h1>Images → PDF</h1>
+      <h1 data-i18n="appTitle">Images → PDF</h1>
       <label class="show-all">
-        <input type="checkbox" id="showAll" /> показать все
+        <input type="checkbox" id="showAll" />
+        <span data-i18n="showAll">show all</span>
       </label>
     </header>
 
@@ -17,11 +18,11 @@
 
     <footer>
       <div class="controls">
-        <button id="selectAll" type="button">Выбрать все</button>
-        <button id="deselectAll" type="button">Снять все</button>
+        <button id="selectAll" type="button" data-i18n="selectAll">Select all</button>
+        <button id="deselectAll" type="button" data-i18n="deselectAll">Deselect all</button>
       </div>
       <button id="export" type="button" class="export" disabled>
-        Export PDF (<span id="count">0</span>)
+        <span id="exportLabel">Export PDF (0)</span>
       </button>
     </footer>
 

@@ -4,6 +4,7 @@
 import { prepareImages } from './lib/images.js';
 import { fitRect } from './lib/pdf-layout.js';
 import { pdfFilename } from './lib/filename.js';
+import { distinctOrigins } from './lib/origins.js';
 
 const MIN_SIZE = 64;        // порог фильтра мелочи (px)
 const PAGE_W = 210;         // A4 ширина, мм
@@ -14,12 +15,25 @@ const AREA_H = PAGE_H - MARGIN * 2;
 
 const gridEl = document.getElementById('grid');
 const statusEl = document.getElementById('status');
-const countEl = document.getElementById('count');
 const exportBtn = document.getElementById('export');
+const exportLabelEl = document.getElementById('exportLabel');
 const showAllEl = document.getElementById('showAll');
 
 let rawImages = [];         // всё, что прислал content.js
 const selected = new Set(); // выбранные src
+
+// Короткий доступ к локализованной строке.
+function t(key, subs) {
+  return chrome.i18n.getMessage(key, subs);
+}
+
+// Подставляет локализованные тексты во все элементы с data-i18n.
+function applyStaticI18n() {
+  for (const el of document.querySelectorAll('[data-i18n]')) {
+    const msg = t(el.dataset.i18n);
+    if (msg) el.textContent = msg;
+  }
+}
 
 function setStatus(text, isError = false) {
   statusEl.textContent = text;
@@ -27,7 +41,7 @@ function setStatus(text, isError = false) {
 }
 
 function updateExportButton() {
-  countEl.textContent = String(selected.size);
+  exportLabelEl.textContent = `${t('exportPdf')} (${selected.size})`;
   exportBtn.disabled = selected.size === 0;
 }
 
@@ -40,11 +54,11 @@ function renderGrid() {
   const images = visibleImages();
   gridEl.innerHTML = '';
   if (images.length === 0) {
-    setStatus('Картинки не найдены.');
+    setStatus(t('noImages'));
     updateExportButton();
     return;
   }
-  setStatus(`Найдено картинок: ${images.length}`);
+  setStatus(t('foundImages', [String(images.length)]));
   for (const img of images) {
     const cell = document.createElement('div');
     cell.className = 'cell' + (selected.has(img.src) ? ' selected' : '');
@@ -61,8 +75,6 @@ function renderGrid() {
     cell.appendChild(checkbox);
     cell.appendChild(thumb);
 
-    // Клик по ячейке переключает выбор. Если кликнули прямо по чекбоксу —
-    // он уже переключился сам, повторно не трогаем.
     cell.addEventListener('click', (e) => {
       if (e.target !== checkbox) checkbox.checked = !checkbox.checked;
       if (checkbox.checked) selected.add(img.src);
@@ -85,7 +97,7 @@ async function getActiveTab() {
 async function loadImages() {
   const tab = await getActiveTab();
   if (!tab || !tab.id || !/^https?:/.test(tab.url || '')) {
-    setStatus('Эта страница не поддерживается. Откройте обычный сайт (http/https).', true);
+    setStatus(t('pageNotSupported'), true);
     return;
   }
   try {
@@ -97,12 +109,11 @@ async function loadImages() {
     rawImages = (resp && resp.images) || [];
     renderGrid();
   } catch (e) {
-    setStatus('Не удалось прочитать страницу: ' + (e.message || e), true);
+    setStatus(t('readError', [String(e.message || e)]), true);
   }
 }
 
 // Конвертирует data-URL любого формата в JPEG через canvas.
-// Нормализует формат для jsPDF и убирает проблему tainted canvas.
 function toJpegDataUrl(dataUrl) {
   return new Promise((resolve, reject) => {
     const image = new Image();
@@ -120,7 +131,7 @@ function toJpegDataUrl(dataUrl) {
         h: image.naturalHeight,
       });
     };
-    image.onerror = () => reject(new Error('не удалось декодировать картинку'));
+    image.onerror = () => reject(new Error('decode failed'));
     image.src = dataUrl;
   });
 }
@@ -128,14 +139,22 @@ function toJpegDataUrl(dataUrl) {
 // Собирает PDF из выбранных картинок и скачивает его.
 async function exportPdf() {
   const urls = Array.from(selected);
-  exportBtn.disabled = true;
-  setStatus(`Скачиваю картинок: ${urls.length}…`);
 
-  // 1. Сервис-воркер качает байты (в обход CORS).
+  // Точечно просим доступ к доменам выбранных картинок.
+  // ВАЖНО: до первого await, пока активен жест пользователя.
+  const origins = distinctOrigins(urls);
+  if (origins.length && !(await chrome.permissions.request({ origins }))) {
+    setStatus(t('permissionDenied'), true);
+    return;
+  }
+
+  exportBtn.disabled = true;
+  setStatus(t('downloading', [String(urls.length)]));
+
+  // Сервис-воркер качает байты (в обход CORS, по выданным разрешениям).
   const fetched = await chrome.runtime.sendMessage({ type: 'FETCH_IMAGES', urls });
 
-  // 2. Собираем PDF.
-  setStatus('Собираю PDF…');
+  setStatus(t('buildingPdf'));
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ unit: 'mm', format: 'a4' });
   let added = 0;
@@ -157,12 +176,11 @@ async function exportPdf() {
   }
 
   if (added === 0) {
-    setStatus('Не удалось добавить ни одной картинки.', true);
+    setStatus(t('noneAdded'), true);
     exportBtn.disabled = false;
     return;
   }
 
-  // 3. Имя файла из домена активной вкладки и сегодняшней даты.
   const tab = await getActiveTab();
   let host = 'page';
   try { host = new URL(tab.url).hostname; } catch (e) { /* оставляем page */ }
@@ -170,7 +188,8 @@ async function exportPdf() {
   doc.save(pdfFilename(host, isoDate));
 
   setStatus(
-    `Готово: добавлено ${added} из ${urls.length}` + (failed ? `, не удалось ${failed}` : '')
+    t('doneAdded', [String(added), String(urls.length)]) +
+    (failed ? t('failedSuffix', [String(failed)]) : '')
   );
   exportBtn.disabled = false;
 }
@@ -187,4 +206,6 @@ showAllEl.addEventListener('change', renderGrid);
 exportBtn.addEventListener('click', exportPdf);
 
 // Старт.
+applyStaticI18n();
+updateExportButton();
 loadImages();
