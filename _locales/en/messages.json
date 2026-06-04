@@ -6,6 +6,7 @@
   "selectAll": { "message": "Select all" },
   "deselectAll": { "message": "Deselect all" },
   "exportPdf": { "message": "Export PDF" },
+  "support": { "message": "Support the developer ☕" },
   "foundImages": { "message": "Found images: $count$", "placeholders": { "count": { "content": "$1" } } },
   "noImages": { "message": "No images found." },
   "pageNotSupported": { "message": "This page isn't supported. Open a regular http/https website." },
