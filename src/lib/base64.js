@@ -1,17 +1,17 @@
-// Кодирование бинарных данных (ArrayBuffer) в base64.
-// Используется в сервис-воркере после fetch картинки.
-// btoa доступен и в браузере, и в Node 16+, поэтому функция тестируется в Node.
+// Encoding binary data (ArrayBuffer) to base64.
+// Used in the service worker after fetching an image.
+// btoa is available both in the browser and in Node 16+, so this is testable in Node.
 
 /**
- * Преобразует ArrayBuffer в base64-строку. Обрабатывает данные кусками,
- * чтобы не переполнить стек на больших картинках: String.fromCharCode(...arr)
- * с огромным массивом аргументов падает.
+ * Converts an ArrayBuffer to a base64 string. Processes the data in chunks to
+ * avoid a stack overflow on large images: String.fromCharCode(...arr) with a
+ * huge argument list throws.
  * @param {ArrayBuffer} buffer
- * @returns {string} base64 без префикса "data:"
+ * @returns {string} base64 without the "data:" prefix
  */
 export function arrayBufferToBase64(buffer) {
   const bytes = new Uint8Array(buffer);
-  const chunkSize = 0x8000; // 32768 — безопасный размер для apply
+  const chunkSize = 0x8000; // 32768 — safe size for apply
   let binary = '';
   for (let i = 0; i < bytes.length; i += chunkSize) {
     const chunk = bytes.subarray(i, i + chunkSize);

@@ -1,11 +1,11 @@
-// Уникальные origin'ы (match-паттерны) из списка URL картинок.
-// Нужны, чтобы точечно запросить host-разрешения только к доменам выбранных
-// картинок. Чистая функция — тестируется в Node.
+// Unique origins (match patterns) from a list of image URLs.
+// Used to request host permissions scoped only to the domains of the selected
+// images. Pure function — unit-tested in Node.
 
 /**
- * @param {string[]} urls список URL картинок
- * @returns {string[]} уникальные match-паттерны вида "https://host/*" (без порта).
- *   data:-URL и нераспознанные URL пропускаются.
+ * @param {string[]} urls list of image URLs
+ * @returns {string[]} unique match patterns like "https://host/*" (no port).
+ *   data: URLs and unparseable URLs are skipped.
  */
 export function distinctOrigins(urls) {
   const patterns = new Set();
@@ -13,10 +13,10 @@ export function distinctOrigins(urls) {
     if (typeof u !== 'string' || u.startsWith('data:')) continue;
     try {
       const url = new URL(u);
-      // hostname без порта: порт в match-паттернах недопустим
+      // hostname without port: ports are not allowed in match patterns
       patterns.add(`${url.protocol}//${url.hostname}/*`);
     } catch (e) {
-      // кривой URL — пропускаем
+      // malformed URL — skip
     }
   }
   return Array.from(patterns);

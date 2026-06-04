@@ -1,17 +1,17 @@
-// Content script: внедряется в активную вкладку по требованию из попапа.
-// Собирает все загруженные <img> и по запросу отдаёт их попапу сообщением.
-// Защита от повторного внедрения: при повторном открытии попапа слушатель
-// не вешается второй раз (иначе будет несколько ответов на одно сообщение).
+// Content script: injected into the active tab on demand from the popup.
+// Collects all loaded <img> elements and returns them to the popup via a message.
+// Guard against double injection: when the popup is reopened, the listener is
+// not registered twice (otherwise one message would get several responses).
 
 if (!window.__imagesToPdfInjected) {
   window.__imagesToPdfInjected = true;
 
-  // Собирает загруженные <img>, возвращает упрощённые данные.
-  // naturalWidth > 0 отсекает ещё не загруженные/битые картинки.
+  // Collects loaded <img> elements, returns simplified data.
+  // naturalWidth > 0 filters out not-yet-loaded / broken images.
   function collectImages() {
     return Array.from(document.images)
       .map((img) => ({
-        // currentSrc учитывает srcset/<picture>; запасной вариант — src.
+        // currentSrc accounts for srcset/<picture>; src is the fallback.
         src: img.currentSrc || img.src,
         width: img.naturalWidth,
         height: img.naturalHeight,
@@ -24,6 +24,6 @@ if (!window.__imagesToPdfInjected) {
     if (message && message.type === 'GET_IMAGES') {
       sendResponse({ images: collectImages() });
     }
-    // ответ синхронный — возвращать true не нужно
+    // synchronous response — returning true is not needed
   });
 }

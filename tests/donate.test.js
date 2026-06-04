@@ -2,20 +2,20 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { isConfiguredDonateValue } from '../src/lib/donate.js';
 
-test('заглушка-адрес не считается настроенной', () => {
+test('the placeholder is not considered configured', () => {
   assert.equal(isConfiguredDonateValue('YOUR_USDT_ADDRESS_HERE'), false);
 });
 
-test('пустая строка и пробелы — не настроено', () => {
+test('empty string and whitespace are not configured', () => {
   assert.equal(isConfiguredDonateValue(''), false);
   assert.equal(isConfiguredDonateValue('   '), false);
 });
 
-test('реальный адрес — настроено', () => {
-  assert.equal(isConfiguredDonateValue('TXYZ1234567890realtronaddress'), true);
+test('a real address is configured', () => {
+  assert.equal(isConfiguredDonateValue('0xad39bdf2df0b8dd6991150fcea0a156150ed19b8'), true);
 });
 
-test('не строка — не настроено', () => {
+test('a non-string is not configured', () => {
   assert.equal(isConfiguredDonateValue(undefined), false);
   assert.equal(isConfiguredDonateValue(null), false);
 });

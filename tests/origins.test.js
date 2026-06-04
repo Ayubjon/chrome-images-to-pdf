@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { distinctOrigins } from '../src/lib/origins.js';
 
-test('уникальные origin в формате scheme://host/*', () => {
+test('unique origins in the form scheme://host/*', () => {
   const out = distinctOrigins([
     'https://a.com/1.jpg',
     'https://a.com/2.jpg',
@@ -11,21 +11,21 @@ test('уникальные origin в формате scheme://host/*', () => {
   assert.deepEqual([...out].sort(), ['http://b.org/*', 'https://a.com/*']);
 });
 
-test('пропускает data: URL', () => {
+test('skips data: URLs', () => {
   const out = distinctOrigins(['data:image/png;base64,AAAA', 'https://a.com/1.jpg']);
   assert.deepEqual(out, ['https://a.com/*']);
 });
 
-test('игнорирует порт (match-паттерны его не допускают)', () => {
+test('ignores the port (match patterns disallow it)', () => {
   const out = distinctOrigins(['https://a.com:8443/1.jpg']);
   assert.deepEqual(out, ['https://a.com/*']);
 });
 
-test('пропускает кривые URL', () => {
+test('skips malformed URLs', () => {
   const out = distinctOrigins(['not a url', 'https://a.com/1.jpg']);
   assert.deepEqual(out, ['https://a.com/*']);
 });
 
-test('пустой вход даёт пустой массив', () => {
+test('empty input yields an empty array', () => {
   assert.deepEqual(distinctOrigins([]), []);
 });

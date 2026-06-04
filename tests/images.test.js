@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { dedupeImages, prepareImages } from '../src/lib/images.js';
 
-test('dedupeImages убирает повторяющиеся src, сохраняя порядок', () => {
+test('dedupeImages removes duplicate src, preserving order', () => {
   const input = [
     { src: 'a', width: 100, height: 100 },
     { src: 'a', width: 100, height: 100 },
@@ -13,7 +13,7 @@ test('dedupeImages убирает повторяющиеся src, сохраня
   assert.deepEqual(out.map((i) => i.src), ['a', 'b']);
 });
 
-test('prepareImages отсеивает картинки меньше minSize по любой стороне', () => {
+test('prepareImages drops images smaller than minSize on either side', () => {
   const input = [
     { src: 'big', width: 200, height: 200 },
     { src: 'wide-but-low', width: 200, height: 10 },
@@ -23,7 +23,7 @@ test('prepareImages отсеивает картинки меньше minSize п�
   assert.deepEqual(out.map((i) => i.src), ['big']);
 });
 
-test('prepareImages с showAll возвращает всё (после дедупа)', () => {
+test('prepareImages with showAll returns everything (after dedupe)', () => {
   const input = [
     { src: 'big', width: 200, height: 200 },
     { src: 'small', width: 10, height: 10 },

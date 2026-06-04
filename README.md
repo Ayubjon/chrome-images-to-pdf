@@ -1,80 +1,82 @@
-# Images to PDF — расширение Chrome
+# Images to PDF — Chrome extension
 
-Собирает картинки (`<img>`) с текущей страницы, даёт выбрать нужные в сетке
-и сохраняет их в один PDF — каждая картинка на отдельной странице A4.
-Локализация: английский (по умолчанию) и русский.
+Collects the images (`<img>`) on the current page, lets you pick the ones you
+want in a grid, and saves them into a single PDF — one image per A4 page.
+Localized in English (default) and Russian.
 
-## Установка
+## Install
 
-**Из готовой сборки (проще всего):**
-1. Скачай `images-to-pdf.zip` со страницы
+**From the prebuilt release (easiest):**
+1. Download `images-to-pdf.zip` from the
    [Releases](https://github.com/Ayubjon/chrome-images-to-pdf/releases/latest)
-   и распакуй в постоянную папку (не удаляй её — расширение работает из неё).
-2. Открой `chrome://extensions` (или `edge://extensions`) → включи
-   **Режим разработчика** (переключатель справа сверху).
-3. Нажми **Загрузить распакованное расширение** и выбери распакованную папку.
-4. Иконка появится в панели.
+   page and unzip it into a permanent folder (don't delete it — the extension
+   runs from there).
+2. Open `chrome://extensions` (or `edge://extensions`) → enable
+   **Developer mode** (top-right toggle).
+3. Click **Load unpacked** and select the unzipped folder.
+4. The icon appears in the toolbar.
 
-> Обновление: при новой версии скачай свежий ZIP и повтори (авто-обновления
-> у самораздачи нет).
+> Updating: when a new version ships, download the fresh ZIP and repeat
+> (self-distributed builds don't auto-update).
 
-**Из исходников (для разработки):** склонируй репозиторий и в шаге 3 выбери
-папку проекта.
+**From source (for development):** clone the repository and select the project
+folder in step 3.
 
-## Использование
+## Usage
 
-1. Открой любой сайт (http/https).
-2. Нажми иконку расширения — в попапе появится сетка картинок.
-3. По умолчанию мелочь (< 64×64 px) скрыта; включи «показать все», чтобы видеть всё.
-4. Отметь нужные картинки (или «Выбрать все»).
-5. Нажми **Export PDF**. При первом экспорте Chrome спросит доступ к доменам
-   выбранных картинок — разреши, чтобы их можно было скачать. Файл
-   `images-<сайт>-<дата>.pdf` скачается.
+1. Open any website (http/https).
+2. Click the extension icon — a grid of the page's images appears.
+3. Small images (< 64×64 px) are hidden by default; toggle "show all" to see them.
+4. Tick the images you want (or "Select all").
+5. Click **Export PDF**. On the first export Chrome asks for access to the
+   domains of the selected images — allow it so they can be downloaded. A file
+   named `images-<site>-<date>.pdf` is downloaded.
 
-## Как устроено
+## How it works
 
-- `src/popup.*` — интерфейс и оркестровка; собирает PDF библиотекой jsPDF.
-- `src/content.js` — внедряется в страницу по требованию, собирает `<img>`.
-- `src/background.js` — сервис-воркер, качает байты картинок в обход CORS.
-- `src/lib/*.js` — чистая логика (фильтр, вписывание, имя файла, base64, origins).
-- `_locales/{en,ru}/messages.json` — локализованные строки.
+- `src/popup.*` — UI and orchestration; builds the PDF with jsPDF.
+- `src/content.js` — injected into the page on demand, collects `<img>` elements.
+- `src/background.js` — service worker, downloads image bytes (bypassing CORS).
+- `src/lib/*.js` — pure logic (filtering, fit-to-page, filename, base64, origins, donate).
+- `_locales/{en,ru}/messages.json` — localized strings.
 
-> Разрешения: расширение просит только `activeTab` + `scripting`. Доступ к
-> доменам картинок (`optional_host_permissions`) запрашивается по требованию в
-> момент экспорта — точечно к нужным сайтам.
+> Permissions: the extension only requests `activeTab` + `scripting`. Access to
+> image domains (`optional_host_permissions`) is requested on demand at export
+> time — scoped to the specific sites.
 
-## Разработка
+## Development
 
-Юнит-тесты чистой логики (нужен Node 18+):
+Unit tests for the pure logic (Node 18+ required):
 
 ```bash
 node --test tests/*.test.js
 ```
 
-Перегенерировать иконки:
+Regenerate the icons:
 
 ```bash
 python3 tools/make-icons.py
 ```
 
-Собрать ZIP для Chrome Web Store (попадёт в `dist/images-to-pdf.zip`):
+Build the distributable ZIP (output: `dist/images-to-pdf.zip`):
 
 ```bash
 bash tools/package.sh
 ```
 
-Донат: адрес USDT (сеть Ethereum / ERC-20) задаётся в `DONATE_ADDRESS` (файл
-`src/popup.js`) — внизу попапа полоска «Поддержать разработчика» с адресом и
-кнопкой «Копировать». Если поставить заглушку — полоска скрывается.
+Donations: set your USDT (Ethereum / ERC-20) address in `DONATE_ADDRESS`
+(`src/popup.js`) — a "Support the developer" bar with the address and a "Copy"
+button appears at the bottom of the popup. With the placeholder value it stays
+hidden.
 
-Тексты листинга и политика — в `STORE-LISTING.md` и `PRIVACY.md`.
+Store listing copy lives in `STORE-LISTING.md`; the privacy policy in `PRIVACY.md`.
 
-## Ручной чек-лист (проверка в браузере)
+## Manual checklist (browser testing)
 
-1. При установке нет предупреждения «доступ ко всем сайтам».
-2. Страница с многими картинками — превью видны нормальными плитками.
-3. Export → запрос доступа к домену картинок → «Разрешить» → PDF.
-4. Повторный экспорт на тот же домен — без повторного запроса.
-5. «Отклонить» в запросе → мягкое сообщение, кнопка снова активна.
-6. Страница без картинок → «Картинки не найдены»; `chrome://extensions` →
-   «страница не поддерживается».
+1. On install there's no "read your data on all sites" warning.
+2. A page with many images — thumbnails render as proper tiles.
+3. Export → permission prompt for the image domain → Allow → PDF.
+4. Re-export to the same domain — no second prompt.
+5. Decline the prompt → friendly message, button stays active.
+6. Page with no images → "No images found"; `chrome://extensions` →
+   "page isn't supported".

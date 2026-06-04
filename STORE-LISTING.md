@@ -1,15 +1,15 @@
-# Chrome Web Store — материалы листинга
+# Chrome Web Store — listing materials
 
-## Название
+## Name
 Images to PDF
 
-## Краткое описание (≤132 символов)
+## Short description (≤132 chars)
 Collect images from any web page and save the ones you pick into a single clean PDF — one image per page.
 
-## Категория
+## Category
 Productivity
 
-## Полное описание
+## Detailed description
 Images to PDF lets you turn the pictures on any web page into a single PDF in
 two clicks.
 
@@ -26,11 +26,11 @@ Features:
 Great for saving photo galleries, product images, comics, or reference shots as
 a single shareable PDF.
 
-## Single purpose (для дашборда)
+## Single purpose (for the dashboard)
 The extension has one purpose: collect images from the current web page and
 export the user-selected ones into a single PDF file.
 
-## Обоснование разрешений (для дашборда)
+## Permission justifications (for the dashboard)
 - **activeTab** — read the current page only when the user opens the popup, to
   list its images.
 - **scripting** — inject the small content script that gathers the page's
@@ -39,19 +39,20 @@ export the user-selected ones into a single PDF file.
   needed to download the bytes of the images the user selected so they can be
   embedded in the PDF; requested only for the specific domains of those images.
 
-## Чек-лист скриншотов (1280×800 PNG, минимум 1, лучше 3–5)
-1. Попап открыт поверх страницы — сетка превью картинок.
-2. Несколько картинок выбрано (синие рамки), на кнопке виден счётчик.
-3. Готовый PDF открыт в просмотрщике.
+## Screenshots checklist (1280×800 PNG, at least 1, ideally 3–5)
+1. Popup open over a page — grid of image thumbnails.
+2. A few images selected (blue borders) and the count shown on the button.
+3. The resulting PDF open in a viewer.
 
-Как снять: открой расширение на странице с картинками, сделай скриншот окна
-(на macOS — Shift+Cmd+4, затем пробел и клик по окну), при необходимости
-приведи к 1280×800.
+How to capture (macOS): open the extension on a page with images, take a window
+screenshot (`Shift+Cmd+4`, then space, then click the popup window); resize to
+1280×800 if needed.
 
-## URL политики конфиденциальности
-Опубликована как публичный GitHub Gist:
+## Privacy policy URL
+Published as a public GitHub Gist:
 
 **https://gist.github.com/Ayubjon/9318f0fdf69f3f951d1d3662ac417b2e**
 
-Вставь этот URL в поле «Privacy policy» в дашборде. Если правишь `PRIVACY.md` —
-обнови и Gist: `gh gist edit 9318f0fdf69f3f951d1d3662ac417b2e PRIVACY.md`.
+Paste this URL into the "Privacy policy" field in the dashboard. If you edit
+`PRIVACY.md`, update the Gist too:
+`gh gist edit 9318f0fdf69f3f951d1d3662ac417b2e PRIVACY.md`.

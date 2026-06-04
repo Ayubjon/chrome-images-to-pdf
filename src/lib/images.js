@@ -1,8 +1,8 @@
-// Подготовка списка картинок: дедуп по src и фильтр по минимальному размеру.
-// Чистые функции без DOM/chrome.* — чтобы покрыть юнит-тестами в Node.
+// Preparing the image list: dedupe by src and filter by minimum size.
+// Pure functions, no DOM / chrome.* — so they can be unit-tested in Node.
 
 /**
- * Убирает картинки с повторяющимся src, оставляя первую. Порядок сохраняется.
+ * Removes images with a duplicate src, keeping the first. Order is preserved.
  * @param {Array<{src:string,width:number,height:number,alt?:string}>} images
  * @returns {Array}
  */
@@ -18,9 +18,9 @@ export function dedupeImages(images) {
 }
 
 /**
- * Дедуп + фильтр по минимальному размеру (если не showAll).
- * Картинка проходит, только если обе стороны >= minSize.
- * @param {Array} images сырой список со страницы
+ * Dedupe + filter by minimum size (unless showAll).
+ * An image passes only if both sides are >= minSize.
+ * @param {Array} images raw list from the page
  * @param {{minSize:number, showAll:boolean}} opts
  * @returns {Array}
  */

@@ -1,9 +1,9 @@
-// Формирование имени PDF-файла из домена страницы и даты.
+// Building the PDF file name from the page domain and the date.
 
 /**
- * Чистит hostname: убирает ведущее www. и небезопасные символы.
- * @param {string} hostname например "www.example.com"
- * @returns {string} например "example.com"
+ * Cleans a hostname: drops a leading www. and unsafe filename characters.
+ * @param {string} hostname e.g. "www.example.com"
+ * @returns {string} e.g. "example.com"
  */
 function cleanHost(hostname) {
   return (hostname || 'page')
@@ -12,9 +12,9 @@ function cleanHost(hostname) {
 }
 
 /**
- * Имя файла вида images-<сайт>-<дата>.pdf
- * @param {string} hostname домен страницы
- * @param {string} isoDate дата в формате YYYY-MM-DD
+ * File name in the form images-<site>-<date>.pdf
+ * @param {string} hostname page domain
+ * @param {string} isoDate date as YYYY-MM-DD
  * @returns {string}
  */
 export function pdfFilename(hostname, isoDate) {

@@ -1,15 +1,15 @@
-// Вписывание картинки в прямоугольную область с сохранением пропорций.
-// Чистая функция — тестируется в Node.
+// Fitting an image into a rectangular PDF area, preserving aspect ratio.
+// Pure function — unit-tested in Node.
 
 /**
- * Масштабирует картинку, чтобы она целиком влезла в область area,
- * сохраняя пропорции. Единицы area и результата одинаковы (у нас мм);
- * у картинки важно лишь соотношение сторон.
- * @param {number} imgW ширина картинки
- * @param {number} imgH высота картинки
- * @param {number} areaW ширина доступной области
- * @param {number} areaH высота доступной области
- * @returns {{w:number, h:number}} размеры картинки в единицах области
+ * Scales an image so it fully fits inside the given area, preserving aspect
+ * ratio. The area and the result share the same units (mm here); only the
+ * image's aspect ratio matters.
+ * @param {number} imgW image width
+ * @param {number} imgH image height
+ * @param {number} areaW available area width
+ * @param {number} areaH available area height
+ * @returns {{w:number, h:number}} image size in the area's units
  */
 export function fitRect(imgW, imgH, areaW, areaH) {
   const scale = Math.min(areaW / imgW, areaH / imgH);
